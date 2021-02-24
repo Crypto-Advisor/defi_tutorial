@@ -9,7 +9,7 @@ import './App.css'
 
 class App extends Component {
 
-  async componentWillMount() {
+  async componentWillMount(){
     await this.loadWeb3()
     await this.loadBlockchainData()
   }
@@ -58,42 +58,42 @@ class App extends Component {
     this.setState({ loading: false })
   }
 
-  async loadWeb3() {
-    if (window.ethereum) {
+  async loadWeb3(){
+    if (window.ethereum){
       window.web3 = new Web3(window.ethereum)
       await window.ethereum.enable()
     }
-    else if (window.web3) {
+    else if (window.web3){
       window.web3 = new Web3(window.web3.currentProvider)
     }
-    else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    else{
+      window.alert('Non-ethereum browser detected. You should consider trying MetaMask!')
     }
   }
 
-  stakeTokens = (amount) => {
-    this.setState({ loading: true })
+  stakeTokens = (amount)=> {
+    this.setState({ loading:true })
     this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
+      this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) =>{
+        this.setState({ loading:false })
       })
     })
   }
 
-  unstakeTokens = (amount) => {
+  unstakeTokens = (amount) =>{
     this.setState({ loading: true })
-    this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.setState({ loading: false })
+    this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) =>{
+      this.setState({ loading: false})
     })
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      account: '0x0',
+      account: '',
       daiToken: {},
       dappToken: {},
-      tokenFarm: {},
+      TokenFarm: {},
       daiTokenBalance: '0',
       dappTokenBalance: '0',
       stakingBalance: '0',
@@ -103,9 +103,9 @@ class App extends Component {
 
   render() {
     let content
-    if(this.state.loading) {
+    if (this.state.loading) {
       content = <p id="loader" className="text-center">Loading...</p>
-    } else {
+    }else{
       content = <Main
         daiTokenBalance={this.state.daiTokenBalance}
         dappTokenBalance={this.state.dappTokenBalance}
@@ -114,7 +114,6 @@ class App extends Component {
         unstakeTokens={this.unstakeTokens}
       />
     }
-
     return (
       <div>
         <Navbar account={this.state.account} />

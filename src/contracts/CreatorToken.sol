@@ -1,9 +1,9 @@
 pragma solidity ^0.5.0;
 
-contract DappToken {
-    string  public name = "Dapp Token";
-    string  public symbol = "DAPP";
-    uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
+contract CreatorToken {
+    string  public name;
+    string  public symbol;
+    uint256 public totalSupply = 10000000000000000000000; 
     uint8   public decimals = 18;
 
     event Transfer(
@@ -21,7 +21,9 @@ contract DappToken {
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
 
-    constructor() public {
+    constructor(string tname, string tsymbol) public {
+        name = tname;
+        symbol = tsymbol;
         balanceOf[msg.sender] = totalSupply;
     }
 
